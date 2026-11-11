@@ -1,4 +1,4 @@
-import { readFile, mkdir, writeFile, cp } from 'node:fs/promises';
+import { readFile, mkdir, writeFile, cp, rm } from 'node:fs/promises';
 import vm from 'node:vm';
 let html = await readFile(new URL('../src/index.html', import.meta.url), 'utf8');
 const { episodes, source } = JSON.parse(await readFile(new URL('../src/data/episodes.json', import.meta.url), 'utf8'));
@@ -45,8 +45,10 @@ for (const required of ['Tony', 'Jason', 'Nash', 'moonshotpdct@gmail.com',
   if (!html.includes(required)) throw new Error(`Missing required brand content: ${required}`);
 }
 const output = new URL('../dist/', import.meta.url);
+await rm(output, { recursive: true, force: true });
 await mkdir(output, { recursive: true });
 await writeFile(new URL('index.html', output), html);
+await cp(new URL('../src/pixel-assets/', import.meta.url), new URL('assets/', output), { recursive: true });
 console.log('Build passed: navigation targets, script syntax and brand links validated. Output: dist/');
 
 // Keep the pixel-art direction as a separate, reviewable design variant.
@@ -61,15 +63,3 @@ await mkdir(new URL('pixel/', output), { recursive: true });
 await writeFile(new URL('pixel/index.html', output), pixel);
 await cp(new URL('../src/pixel-assets/', import.meta.url), new URL('pixel/assets/', output), { recursive: true });
 console.log('Pixel variant built at /pixel/');
-
-const hybrid = (await readFile(new URL('../src/hybrid.html', import.meta.url), 'utf8')).replace('<!-- LATEST_EPISODES -->', section);
-const hybridIds = [...hybrid.matchAll(/\bid="([^"\s]+)"/g)].map(match => match[1]);
-if (new Set(hybridIds).size !== hybridIds.length) throw new Error('Duplicate hybrid variant IDs');
-for (const [, id] of hybrid.matchAll(/href="#([^"\s]+)"/g)) {
-  if (!hybridIds.includes(id)) throw new Error(`Missing hybrid target: ${id}`);
-}
-for (const [, script] of hybrid.matchAll(/<script>([\s\S]*?)<\/script>/g)) new vm.Script(script);
-await mkdir(new URL('hybrid/', output), { recursive: true });
-await writeFile(new URL('hybrid/index.html', output), hybrid);
-await cp(new URL('../src/pixel-assets/', import.meta.url), new URL('hybrid/assets/', output), { recursive: true });
-console.log('Hybrid variant built at /hybrid/');

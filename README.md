@@ -52,6 +52,6 @@ The original Moonshot art uses a midnight, mint and coral palette, pixel moon/ro
 
 The hero asset lives in `src/pixel-assets/pixel-moon.png` and is bundled locally. See `docs/pixel-art-direction.md` for provenance and the generation brief. Builds copy this asset into `dist/pixel/assets/`.
 
-## Hybrid editorial design variant
+## Default homepage design
 
-`/hybrid/` combines the pixel-space opening with the original light editorial layout, generous spacing and understated dividers. Edit `src/hybrid.html`. It shares the reviewed episode data and original pixel artwork with the other variants. Build with `npm run build`; preview at `/hybrid/`. Existing `/` and `/pixel/` remain available for comparison.
+The selected pixel-space opening and spacious light editorial content now form the default homepage at `/`. Edit `src/index.html`; artwork is bundled at `/assets/pixel-moon.png`. The `/hybrid/` comparison page has been removed. `/pixel/` remains the earlier all-dark design comparison. No hidden game is included.
