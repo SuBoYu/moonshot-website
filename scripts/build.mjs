@@ -10,15 +10,20 @@ for (const episode of episodes) {
   if (url.protocol !== 'https:' || url.hostname !== 'player.soundon.fm') throw new Error('Episode links must use the official SoundOn player');
 }
 if (episodes.some((episode, i) => i && episode.publishedAt > episodes[i - 1].publishedAt)) throw new Error('Episodes must be newest first');
-const [latest, ...recent] = episodes;
+const upcoming = JSON.parse(await readFile(new URL('../src/data/upcoming.json', import.meta.url), 'utf8'));
+for (const key of ['label', 'title', 'description', 'note']) {
+  if (typeof upcoming[key] !== 'string' || !upcoming[key].trim()) throw new Error(`Missing upcoming episode ${key}`);
+}
+const recent = episodes.slice(0, 2);
 const number = episode => escape(episode.title.match(/^EP\d+/)?.[0] ?? 'MOONSHOT');
 const title = episode => escape(episode.title.replace(/^EP\d+\s*/, ''));
 const date = episode => escape(episode.publishedAt.replaceAll('-', '.'));
 const section = `<section class="episodes wrap" id="episodes" aria-labelledby="episodes-heading">
-  <div class="section-head"><div><div class="kicker">ON AIR / LATEST EPISODES</div><h2 id="episodes-heading">下一個好問題，<br>從這一集開始。</h2></div><div class="episodes-intro"><a href="https://sndn.link/moonshot" target="_blank" rel="noopener noreferrer">瀏覽所有單集 ↗</a></div></div>
-  <article class="episode-feature"><div class="episode-art" aria-hidden="true"><div class="episode-art-top"><span>MOONSHOT / FIELD NOTES</span><span>保持好奇</span></div><div class="episode-number">${number(latest)}</div><div class="episode-art-bottom"><span>射月計畫 PODCAST</span><b>↗</b></div></div><div class="episode-copy"><div class="episode-meta"><span class="badge">最新單集</span><time datetime="${escape(latest.publishedAt)}">${date(latest)}</time> · ${latest.durationMinutes} 分鐘</div><h3>${title(latest)}</h3><p>把好奇帶進現場，讓問題在對話裡展開。<br>和 Moonshot 一起，聽見不同的觀點。</p><a class="btn primary" href="${escape(latest.url)}" target="_blank" rel="noopener noreferrer" aria-label="收聽 ${escape(latest.title)}">收聽這一集 <span aria-hidden="true">▶</span></a></div></article>
+  <div class="section-head"><div><div class="kicker">UP NEXT / FIELD NOTES</div><h2 id="episodes-heading">下一趟探索，<br>我們去看火箭。</h2></div><div class="episodes-intro"><a href="https://sndn.link/moonshot" target="_blank" rel="noopener noreferrer">瀏覽所有單集 ↗</a></div></div>
+  <article class="episode-feature"><div class="episode-art rocket-art" aria-hidden="true"><div class="episode-art-top"><span>MOONSHOT / FIELD NOTES</span><span>UP NEXT</span></div><div class="rocket-visual"><span class="rocket-body"></span><span class="rocket-trail"></span></div><div class="episode-art-bottom"><span>S2 / 01 · 下一趟探索</span><b>↗</b></div></div><div class="episode-copy"><div class="episode-meta"><span class="badge">即將推出</span>${escape(upcoming.label)}</div><h3>${escape(upcoming.title)}</h3><p>${escape(upcoming.description)}</p><div class="episode-formats"><span>長影片</span><span>短影片</span><span>Podcast</span></div><p class="upcoming-note">${escape(upcoming.note)}</p><a class="btn primary" href="https://www.youtube.com/@moonshot_official" target="_blank" rel="noopener noreferrer">訂閱 YouTube，關注新集數 <span aria-hidden="true">↗</span></a></div></article>
+  <div class="recent-label">已上架單集 / KEEP EXPLORING</div>
   <div class="episode-recent">${recent.map(episode => `<a class="episode-row" href="${escape(episode.url)}" target="_blank" rel="noopener noreferrer" aria-label="收聽 ${escape(episode.title)}"><span class="episode-row-number">${number(episode)}</span><div><div class="episode-meta"><time datetime="${escape(episode.publishedAt)}">${date(episode)}</time> · ${episode.durationMinutes} 分鐘</div><h3>${title(episode)}</h3></div><span class="episode-row-arrow" aria-hidden="true">↗</span></a>`).join('')}</div>
-  <p class="episode-source">依節目官方 <a href="${escape(source)}" target="_blank" rel="noopener noreferrer">RSS</a> 刊載順序整理。各平台上架內容可能不同。</p>
+  <p class="episode-source">已上架單集依節目官方 <a href="${escape(source)}" target="_blank" rel="noopener noreferrer">RSS</a> 刊載順序整理。各平台上架內容可能不同。</p>
 </section>`;
 if (!html.includes('<!-- LATEST_EPISODES -->')) throw new Error('Missing latest-episodes slot');
 html = html.replace('<!-- LATEST_EPISODES -->', section);
