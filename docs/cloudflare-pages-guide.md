@@ -4,7 +4,7 @@
 
 ## 本次遷移結果
 
-私人 repo 已建立並推送。本機 build 通過。Cloudflare 尚未登入或連接，因此部署與 pages.dev 網址待驗證。GitHub Actions 首次執行回報 startup_failure，未建立 jobs，無可用 logs，詳細原因待登入 GitHub 檢查，不視為 CI 通過：https://github.com/SuBoYu/moonshot-website/actions/runs/42959450527
+公開（Public）repo 已建立並推送。本機 build 通過。Cloudflare 尚未登入或連接，因此部署與 pages.dev 網址待驗證。GitHub Actions 首次執行回報 startup_failure，未建立 jobs，無可用 logs，詳細原因待登入 GitHub 檢查，不視為 CI 通過：https://github.com/SuBoYu/moonshot-website/actions/runs/42959450527
 
 Notion 指南：https://app.notion.com/p/41570bdecd7481fb8328d585f2560b47
 
