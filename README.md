@@ -55,3 +55,7 @@ The hero asset lives in `src/pixel-assets/pixel-moon.png` and is bundled locally
 ## Hybrid editorial design variant
 
 `/hybrid/` combines the pixel-space opening with the original light editorial layout, generous spacing and understated dividers. Edit `src/hybrid.html`. It shares the reviewed episode data and original pixel artwork with the other variants. Build with `npm run build`; preview at `/hybrid/`. Existing `/` and `/pixel/` remain available for comparison.
+
+### Hidden star mission
+
+The hybrid hero hides a small satellite button. It opens an opt-in canvas game: collect five stars using arrow keys/A/D, pointer dragging or the on-screen buttons. Escape or Close stops the animation and restores focus. The game does not start or animate while closed; no network, sound, tracking or persistent data is used. Verify the frame-loop behavior with `node scripts/test-star-mission.mjs`.
