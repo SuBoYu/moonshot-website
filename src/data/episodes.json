@@ -1,0 +1,23 @@
+{
+  "source": "https://feeds.soundon.fm/podcasts/8529b16e-4bf3-4470-87e4-c8ec8ddd5c76.xml",
+  "episodes": [
+    {
+      "title": "EP41 灣區 Taiwan Demo Day 現場直擊：創業者在 AI 時代怎麼打仗？",
+      "url": "https://player.soundon.fm/p/8529b16e-4bf3-4470-87e4-c8ec8ddd5c76/episodes/e5456a83-7668-4315-935d-d649671ad51e",
+      "publishedAt": "2026-03-30",
+      "durationMinutes": 35
+    },
+    {
+      "title": "EP40 我們回來了：AI 正在重寫創業、財富與人生選擇",
+      "url": "https://player.soundon.fm/p/8529b16e-4bf3-4470-87e4-c8ec8ddd5c76/episodes/d71b5a51-32d5-4ca4-95b1-01f3b56dcd6c",
+      "publishedAt": "2026-03-14",
+      "durationMinutes": 34
+    },
+    {
+      "title": "EP39 消失了半年的我們",
+      "url": "https://player.soundon.fm/p/8529b16e-4bf3-4470-87e4-c8ec8ddd5c76/episodes/27e30f14-cfaf-4d97-97ce-bfced26f7177",
+      "publishedAt": "2024-12-23",
+      "durationMinutes": 32
+    }
+  ]
+}
