@@ -2,6 +2,12 @@
 
 適用：Moonshot 射月計畫；之後可複用於 Tommy 學長的網站。
 
+## 本次遷移結果
+
+私人 repo 已建立並推送。本機 build 通過。Cloudflare 尚未登入或連接，因此部署與 pages.dev 網址待驗證。GitHub Actions 首次執行回報 startup_failure，未建立 jobs，無可用 logs，詳細原因待登入 GitHub 檢查，不視為 CI 通過：https://github.com/SuBoYu/moonshot-website/actions/runs/42959450527
+
+Notion 指南：https://app.notion.com/p/41570bdecd7481fb8328d585f2560b47
+
 ## 目前進度與依據
 
 - 個人網站參考： https://github.com/SuBoYu/tonysu 。README 指定 Cloudflare Pages Git integration、main 正式分支、pnpm build、dist 輸出；記錄網址為 https://tonysu.pages.dev 。這是 repo 文件資訊，未登入 Cloudflare 核對帳號狀態。
@@ -60,7 +66,7 @@ pages.dev 不需要另外購買網域或修改 DNS。若還沒決定正式網域
 5. 若同時使用根網域與 www，先綁定兩者並選定唯一主要網址，再設定 www/根網域轉址。需要將 pages.dev 導向正式網域時，可依官方 Bulk Redirects 指南設定；確認不要把 preview 網址一起轉走。
 6. 網址確定後，再新增或更新 canonical、Open Graph URL、robots 與 sitemap。Moonshot 目前未假設正式網域，也未加入虛構的 canonical URL。
 
-不會自動購買網域；實際網域與註冊商仍待決定。
+已確認先使用 Cloudflare 免費 pages.dev 網址，之後再綁正式網域；目前不需要購買網域或設定 DNS。
 
 ## 每次更新
 
