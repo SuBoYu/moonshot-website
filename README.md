@@ -51,3 +51,7 @@ Refresh deliberately with `npm run episodes:update` (Python 3 and network access
 The original Moonshot art uses a midnight, mint and coral palette, pixel moon/rocket scenery, an original pixel moon mark, geometric crew avatars and native keyboard-accessible topic disclosures. Hero art is illustrative, not mission photography or a representation of a specific rocket. There are no SpaceX logos or borrowed Instagram assets.
 
 The hero asset lives in `src/pixel-assets/pixel-moon.png` and is bundled locally. See `docs/pixel-art-direction.md` for provenance and the generation brief. Builds copy this asset into `dist/pixel/assets/`.
+
+## Hybrid editorial design variant
+
+`/hybrid/` combines the pixel-space opening with the original light editorial layout, generous spacing and understated dividers. Edit `src/hybrid.html`. It shares the reviewed episode data and original pixel artwork with the other variants. Build with `npm run build`; preview at `/hybrid/`. Existing `/` and `/pixel/` remain available for comparison.

@@ -61,3 +61,15 @@ await mkdir(new URL('pixel/', output), { recursive: true });
 await writeFile(new URL('pixel/index.html', output), pixel);
 await cp(new URL('../src/pixel-assets/', import.meta.url), new URL('pixel/assets/', output), { recursive: true });
 console.log('Pixel variant built at /pixel/');
+
+const hybrid = (await readFile(new URL('../src/hybrid.html', import.meta.url), 'utf8')).replace('<!-- LATEST_EPISODES -->', section);
+const hybridIds = [...hybrid.matchAll(/\bid="([^"\s]+)"/g)].map(match => match[1]);
+if (new Set(hybridIds).size !== hybridIds.length) throw new Error('Duplicate hybrid variant IDs');
+for (const [, id] of hybrid.matchAll(/href="#([^"\s]+)"/g)) {
+  if (!hybridIds.includes(id)) throw new Error(`Missing hybrid target: ${id}`);
+}
+for (const [, script] of hybrid.matchAll(/<script>([\s\S]*?)<\/script>/g)) new vm.Script(script);
+await mkdir(new URL('hybrid/', output), { recursive: true });
+await writeFile(new URL('hybrid/index.html', output), hybrid);
+await cp(new URL('../src/pixel-assets/', import.meta.url), new URL('hybrid/assets/', output), { recursive: true });
+console.log('Hybrid variant built at /hybrid/');
