@@ -1,4 +1,4 @@
-import { readFile, mkdir, writeFile, cp } from 'node:fs/promises';
+import { readFile, mkdir, writeFile, cp, rm } from 'node:fs/promises';
 import vm from 'node:vm';
 let html = await readFile(new URL('../src/index.html', import.meta.url), 'utf8');
 const { episodes, source } = JSON.parse(await readFile(new URL('../src/data/episodes.json', import.meta.url), 'utf8'));
@@ -45,8 +45,10 @@ for (const required of ['Tony', 'Jason', 'Nash', 'moonshotpdct@gmail.com',
   if (!html.includes(required)) throw new Error(`Missing required brand content: ${required}`);
 }
 const output = new URL('../dist/', import.meta.url);
+await rm(output, { recursive: true, force: true });
 await mkdir(output, { recursive: true });
 await writeFile(new URL('index.html', output), html);
+await cp(new URL('../src/pixel-assets/', import.meta.url), new URL('assets/', output), { recursive: true });
 console.log('Build passed: navigation targets, script syntax and brand links validated. Output: dist/');
 
 // Keep the pixel-art direction as a separate, reviewable design variant.
