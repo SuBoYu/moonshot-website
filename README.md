@@ -43,3 +43,11 @@ The earlier Sites prototype remains separate and is not automatically synchroniz
 The homepage combines the editorial moon cover with an upcoming rocket-episode feature and two published episode links. `src/data/episodes.json` is a reviewed snapshot of the official SoundOn RSS (resolved from Apple Podcasts show 1682741765). Episode title, date, duration and direct links are real feed metadata. It is not a live browser feed and does not update automatically.
 
 Refresh deliberately with `npm run episodes:update` (Python 3 and network access required), review the JSON diff, then run `npm run build`. Normal builds need no network or third-party packages. The build renders the episode cards, escapes feed text and validates dates, ordering and official-player URLs. The upcoming plan lives separately in `src/data/upcoming.json`, is clearly marked as in preparation with dates unconfirmed, and has a channel subscription CTA instead of a play link. No unpublished plans are presented as released episodes.
+
+## Pixel mission-control design variant
+
+`/pixel/` is an independent dark pixel-art design direction. Edit `src/pixel.html` for the design; it shares reviewed upcoming/published episode data with the light homepage. The existing `/` homepage is preserved.
+
+The original Moonshot art uses a midnight, mint and coral palette, pixel moon/rocket scenery, an original pixel moon mark, geometric crew avatars and native keyboard-accessible topic disclosures. Hero art is illustrative, not mission photography or a representation of a specific rocket. There are no SpaceX logos or borrowed Instagram assets.
+
+The hero asset lives in `src/pixel-assets/pixel-moon.png` and is bundled locally. See `docs/pixel-art-direction.md` for provenance and the generation brief. Builds copy this asset into `dist/pixel/assets/`.

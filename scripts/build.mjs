@@ -1,4 +1,4 @@
-import { readFile, mkdir, writeFile } from 'node:fs/promises';
+import { readFile, mkdir, writeFile, cp } from 'node:fs/promises';
 import vm from 'node:vm';
 let html = await readFile(new URL('../src/index.html', import.meta.url), 'utf8');
 const { episodes, source } = JSON.parse(await readFile(new URL('../src/data/episodes.json', import.meta.url), 'utf8'));
@@ -48,3 +48,16 @@ const output = new URL('../dist/', import.meta.url);
 await mkdir(output, { recursive: true });
 await writeFile(new URL('index.html', output), html);
 console.log('Build passed: navigation targets, script syntax and brand links validated. Output: dist/');
+
+// Keep the pixel-art direction as a separate, reviewable design variant.
+const pixel = (await readFile(new URL('../src/pixel.html', import.meta.url), 'utf8')).replace('<!-- LATEST_EPISODES -->', section);
+const pixelIds = [...pixel.matchAll(/\bid="([^"\s]+)"/g)].map(match => match[1]);
+if (new Set(pixelIds).size !== pixelIds.length) throw new Error('Duplicate pixel variant IDs');
+for (const [, id] of pixel.matchAll(/href="#([^"\s]+)"/g)) {
+  if (!pixelIds.includes(id)) throw new Error(`Missing pixel variant target: ${id}`);
+}
+for (const [, script] of pixel.matchAll(/<script>([\s\S]*?)<\/script>/g)) new vm.Script(script);
+await mkdir(new URL('pixel/', output), { recursive: true });
+await writeFile(new URL('pixel/index.html', output), pixel);
+await cp(new URL('../src/pixel-assets/', import.meta.url), new URL('pixel/assets/', output), { recursive: true });
+console.log('Pixel variant built at /pixel/');
