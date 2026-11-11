@@ -73,5 +73,3 @@ await mkdir(new URL('hybrid/', output), { recursive: true });
 await writeFile(new URL('hybrid/index.html', output), hybrid);
 await cp(new URL('../src/pixel-assets/', import.meta.url), new URL('hybrid/assets/', output), { recursive: true });
 console.log('Hybrid variant built at /hybrid/');
-
-new vm.Script(await readFile(new URL('../src/pixel-assets/star-mission.js', import.meta.url), 'utf8'));
