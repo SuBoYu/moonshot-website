@@ -37,3 +37,9 @@ Create a branch, edit, build, push and open a pull request. Check GitHub CI and 
 See [docs/cloudflare-pages-guide.md](docs/cloudflare-pages-guide.md) for one-time setup, domains, verification, rollback and the reusable Tommy checklist.
 
 The earlier Sites prototype remains separate and is not automatically synchronized. Use this repository for future official website changes. Do not copy the prior Sites `.openai/hosting.json` or private deployment credentials here.
+
+## Latest episodes
+
+The homepage combines the editorial moon cover with an episode feature and two recent-episode links. `src/data/episodes.json` is a reviewed snapshot of the official SoundOn RSS (resolved from Apple Podcasts show 1682741765). Episode title, date, duration and direct links are real feed metadata. It is not a live browser feed and does not update automatically.
+
+Refresh deliberately with `npm run episodes:update` (Python 3 and network access required), review the JSON diff, then run `npm run build`. Normal builds need no network or third-party packages. The build renders the episode cards, escapes feed text and validates dates, ordering and official-player URLs. No unpublished plans from the reference site are presented as released episodes.
