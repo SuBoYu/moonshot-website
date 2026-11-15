@@ -1,6 +1,12 @@
 import { readFile, mkdir, writeFile, cp, rm } from 'node:fs/promises';
 import vm from 'node:vm';
-let html = await readFile(new URL('../src/index.html', import.meta.url), 'utf8');
+const headerTemplate = await readFile(new URL('../src/shared/header.html', import.meta.url), 'utf8');
+function siteHeader(page, home, launches, current = false) {
+  const header = headerTemplate.replace('href="__HOME__"', 'href="' + (home || '#home') + '"').replaceAll('__HOME__', home).replaceAll('__LAUNCHES__', launches).replace('__CURRENT__', current ? 'aria-current="page"' : '');
+  if (!page.includes('<!-- SITE_HEADER -->')) throw new Error('Missing shared header slot');
+  return page.replace('<!-- SITE_HEADER -->', header).replace('</head>', '<script src="/header.js" defer></script></head>');
+}
+let html = siteHeader(await readFile(new URL('../src/index.html', import.meta.url), 'utf8'), '', 'launches/');
 const { episodes, source } = JSON.parse(await readFile(new URL('../src/data/episodes.json', import.meta.url), 'utf8'));
 const escape = value => String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 if (!Array.isArray(episodes) || episodes.length !== 3) throw new Error('Expected three episode records');
@@ -80,7 +86,7 @@ const landMask = JSON.parse(await readFile(new URL('../src/data/land-mask.json',
 if (Buffer.from(landMask.bits, 'base64').length !== Math.ceil((landMask.cols * landMask.rows) / 8)) throw new Error('Land mask size does not match its grid');
 const normalizer = (await readFile(new URL('./launch-normalize.mjs', import.meta.url), 'utf8')).replace(/^export /gm, '');
 const inlineJson = value => JSON.stringify(value).replace(/</g, '\u003c');
-let launchPage = await readFile(new URL('../src/launches.html', import.meta.url), 'utf8');
+let launchPage = siteHeader(await readFile(new URL('../src/launches.html', import.meta.url), 'utf8'), '../', '../launches/', true);
 for (const [slot, value] of [['__LAUNCH_DATA__', inlineJson(launches)], ['__LAND_MASK__', inlineJson(landMask)], ['/*__NORMALIZE__*/', normalizer]]) {
   if (launchPage.split(slot).length !== 2) throw new Error(`Launch page must contain exactly one ${slot} slot`);
   launchPage = launchPage.replace(slot, () => value);
@@ -99,3 +105,6 @@ console.log('Launch tracker built at /launches/');
 new vm.Script(await readFile(new URL('../src/shared/theme.js', import.meta.url), 'utf8'));
 await cp(new URL('../src/shared/theme.js', import.meta.url), new URL('theme.js', output));
 await cp(new URL('../src/shared/theme.css', import.meta.url), new URL('theme.css', output));
+
+new vm.Script(await readFile(new URL('../src/shared/header.js', import.meta.url), 'utf8'));
+await cp(new URL('../src/shared/header.js', import.meta.url), new URL('header.js', output));

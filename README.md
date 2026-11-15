@@ -73,3 +73,5 @@ Shared behavior and styles live in `src/shared/theme.js` and `src/shared/theme.c
 ## Brand naming
 
 The umbrella website brand is **Moonshot 射月計畫**. Do not append PODCAST to its wordmark or describe the entire brand as a podcast. YouTube videos, podcast conversations and on-location exploration are formats under the broader brand. Keep Podcast labels where they identify an actual listening format or platform, and preserve existing platform URLs.
+
+The homepage and launch tracker share `src/shared/header.html` and `src/shared/header.js`. Edit the shared template to change both top navigation bars; the build resolves homepage/launch links for each route. Launch-specific section links and the data status live inside the launch hero.

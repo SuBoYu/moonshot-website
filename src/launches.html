@@ -292,17 +292,13 @@ html{scroll-padding-top:100px}.wrap{max-width:1440px}
 <link rel="stylesheet" href="/theme.css"></head>
 <body>
 <a class="skip" href="#main">跳至主要內容</a>
-<header class="top"><div class="wrap">
-  <a class="brand" href="../" aria-label="回到 Moonshot 射月計畫首頁">moonshot<span>射月計畫</span></a>
-  <nav aria-label="頁面導覽"><a href="#upcoming">發射清單</a><a href="#starship">歷次試飛</a><a href="#recent">近期發射</a><a class="home" href="../">← 首頁</a></nav><button class="theme-toggle" type="button" data-theme-toggle aria-label="切換至深色風格" aria-pressed="false" title="切換至深色風格"><span data-theme-icon aria-hidden="true">☾</span></button>
-  <div class="feed" id="feed" role="status"><i></i><span id="feed-text">SNAPSHOT</span></div>
-</div></header>
+<!-- SITE_HEADER -->
 
 <main id="main">
 <section class="hero" id="next" aria-labelledby="next-name">
   <canvas id="globe" aria-hidden="true"></canvas>
   <div class="wrap hero-main">
-    <div class="focus">
+    <div class="focus"><div class="launch-page-links"><nav aria-label="發射任務頁面導覽"><a href="#upcoming">發射清單</a><a href="#starship">歷次試飛</a><a href="#recent">近期發射</a></nav><div class="feed" id="feed" role="status"><i></i><span id="feed-text">SNAPSHOT</span></div></div>
       <div class="eyebrow"><span><b>NEXT LAUNCH</b> / 下一次發射</span><span class="chip" id="next-status"></span></div>
       <h1 id="next-name">—</h1>
       <p class="hero-sub" id="next-sub"></p>

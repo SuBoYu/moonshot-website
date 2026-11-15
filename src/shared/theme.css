@@ -61,3 +61,18 @@ html[data-theme="dark"]{background:#080e15;color-scheme:dark}
 @media(max-width:850px) and (min-width:651px){header .logo{font-size:24px}.navlinks{gap:10px;font-size:10px}.navcta{padding:10px}.theme-toggle{width:36px;height:36px;min-width:36px}}
 @media(max-width:650px){header .nav{gap:10px}header .menu{margin-left:auto}.theme-toggle{width:38px;height:38px;min-width:38px}.top .wrap{gap:12px}.top nav{margin-left:auto}}
 @media(prefers-reduced-motion:reduce){.theme-toggle{transition:none}}
+/* Homepage and launch tracker use one header, with identical geometry. */
+.site-header{position:sticky;top:0;z-index:30;background:var(--paper,#f7f5ef);border-bottom:1px solid var(--line,#d9dcd2);color:var(--ink,var(--t1,#252a26));font-family:Arial,"PingFang TC",sans-serif}
+.site-header .site-nav{display:flex;align-items:center;justify-content:space-between;gap:18px;width:100%;max-width:1440px;height:86px;margin:auto;padding:0 6%;box-sizing:border-box}
+.site-header .logo{display:block;flex-shrink:0;font-size:31px;line-height:normal;font-weight:900;letter-spacing:-1.8px;color:inherit;text-decoration:none}
+.site-header .logo span{display:block;font-size:9px;line-height:normal;font-weight:700;letter-spacing:3px;margin-top:3px}
+.site-header .navlinks{position:static;display:flex;align-items:center;gap:18px;font-size:13px;line-height:normal;letter-spacing:0;margin:0;padding:0;background:none;border:0}
+.site-header .navlinks a{color:inherit;white-space:nowrap}.site-header .navlinks a:hover,.site-header .navlinks a[aria-current="page"]{color:var(--orange,#d9663f)}
+.site-header .navcta{display:block;padding:12px 18px;border:1px solid currentColor;border-radius:30px;font-size:inherit;letter-spacing:0;line-height:normal}
+.site-header .menu{display:none;background:none;border:0;padding:10px;color:inherit;font:13px Arial,"PingFang TC",sans-serif;cursor:pointer}
+.site-header .theme-toggle{margin:0}
+.launch-page-links{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:30px;border-bottom:1px solid #48645a;padding-bottom:17px}
+.launch-page-links nav{display:flex;flex-wrap:wrap;gap:20px;font-size:11px;color:#b1c3bc;letter-spacing:0}.launch-page-links nav a:hover{color:#b7efd3}.launch-page-links .feed{color:#b1c3bc;font-size:9px}.launch-page-links .feed.live i{background:#a8f6d3}
+@media(max-width:1100px){.site-header .site-nav{gap:12px}.site-header .navlinks{gap:13px;font-size:11px}}
+@media(max-width:850px) and (min-width:651px){.site-header .logo{font-size:24px}.site-header .navlinks{gap:10px;font-size:10px}.site-header .navcta{padding:10px}}
+@media(max-width:650px){.site-header .site-nav{height:74px;gap:10px}.site-header .logo{font-size:29px}.site-header .menu{display:block;margin-left:auto}.site-header .navlinks{display:none;position:absolute;top:74px;left:0;right:0;flex-direction:column;align-items:stretch;gap:25px;padding:25px 6%;background:var(--paper,#f7f5ef);border-bottom:1px solid var(--line,#d9dcd2);font-size:13px}.site-header .navlinks.open{display:flex}.launch-page-links{align-items:start;gap:12px;margin-bottom:24px}.launch-page-links nav{gap:12px;font-size:10px}.launch-page-links .feed{font-size:8px;white-space:normal;text-align:right;line-height:1.6}}
