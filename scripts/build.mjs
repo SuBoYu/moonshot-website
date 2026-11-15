@@ -63,3 +63,34 @@ await mkdir(new URL('pixel/', output), { recursive: true });
 await writeFile(new URL('pixel/index.html', output), pixel);
 await cp(new URL('../src/pixel-assets/', import.meta.url), new URL('pixel/assets/', output), { recursive: true });
 console.log('Pixel variant built at /pixel/');
+
+// SpaceX launch tracker at /launches/. Launch data is a reviewed snapshot (npm run launches:update);
+// the page refreshes itself from Launch Library 2 in the browser and falls back to the snapshot.
+const launches = JSON.parse(await readFile(new URL('../src/data/launches.json', import.meta.url), 'utf8'));
+for (const key of ['upcoming', 'recent', 'starship']) {
+  if (!Array.isArray(launches[key]) || !launches[key].length) throw new Error(`Launch snapshot has no ${key} launches`);
+  for (const launch of launches[key]) {
+    if (!launch.id || !launch.name || !launch.vehicle || Number.isNaN(Date.parse(launch.net))) throw new Error(`Invalid launch record in ${key}: ${launch.name ?? launch.id}`);
+    if (launch.webcast && new URL(launch.webcast).protocol !== 'https:') throw new Error(`Webcast link must be https: ${launch.name}`);
+  }
+}
+if (Number.isNaN(Date.parse(launches.fetchedAt))) throw new Error('Launch snapshot is missing fetchedAt');
+if (launches.recent.some((launch, i) => i && launch.net > launches.recent[i - 1].net)) throw new Error('Recent launches must be newest first');
+const landMask = JSON.parse(await readFile(new URL('../src/data/land-mask.json', import.meta.url), 'utf8'));
+if (Buffer.from(landMask.bits, 'base64').length !== Math.ceil((landMask.cols * landMask.rows) / 8)) throw new Error('Land mask size does not match its grid');
+const normalizer = (await readFile(new URL('./launch-normalize.mjs', import.meta.url), 'utf8')).replace(/^export /gm, '');
+const inlineJson = value => JSON.stringify(value).replace(/</g, '\u003c');
+let launchPage = await readFile(new URL('../src/launches.html', import.meta.url), 'utf8');
+for (const [slot, value] of [['__LAUNCH_DATA__', inlineJson(launches)], ['__LAND_MASK__', inlineJson(landMask)], ['/*__NORMALIZE__*/', normalizer]]) {
+  if (launchPage.split(slot).length !== 2) throw new Error(`Launch page must contain exactly one ${slot} slot`);
+  launchPage = launchPage.replace(slot, () => value);
+}
+const launchIds = [...launchPage.matchAll(/\sid="([^"\s]+)"/g)].map(match => match[1]);
+if (new Set(launchIds).size !== launchIds.length) throw new Error('Duplicate launch page IDs');
+for (const [, id] of launchPage.matchAll(/href="#([^"\s]+)"/g)) {
+  if (!launchIds.includes(id)) throw new Error(`Missing launch page target: ${id}`);
+}
+for (const [, script] of launchPage.matchAll(/<script>([\s\S]*?)<\/script>/g)) new vm.Script(script);
+await mkdir(new URL('launches/', output), { recursive: true });
+await writeFile(new URL('launches/index.html', output), launchPage);
+console.log('Launch tracker built at /launches/');
