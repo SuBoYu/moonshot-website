@@ -365,14 +365,16 @@ function partition(incoming = []) {
 }
 
 /* ---------- formatting ---------- */
-const offset = -new Date().getTimezoneOffset();
-const TZ = `GMT${offset < 0 ? '−' : '+'}${Math.floor(Math.abs(offset) / 60)}${offset % 60 ? ':' + pad2(Math.abs(offset) % 60) : ''}`;
+function timezone(date) {
+  const offset = -date.getTimezoneOffset();
+  return `GMT${offset < 0 ? '−' : '+'}${Math.floor(Math.abs(offset) / 60)}${offset % 60 ? ':' + pad2(Math.abs(offset) % 60) : ''}`;
+}
 const ymd = d => `${d.getFullYear()}.${pad2(d.getMonth() + 1)}.${pad2(d.getDate())}`;
 const hm = d => `${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
 function when(l) {
   const d = new Date(l.net);
   if (isNaN(d)) return { d: '—', t: '' };
-  if (exact(l)) return { d: ymd(d), t: `${hm(d)} ${TZ}` };
+  if (exact(l)) return { d: ymd(d), t: `${hm(d)} ${timezone(d)}` };
   const y = d.getUTCFullYear(), m = pad2(d.getUTCMonth() + 1), p = l.precision;
   if (p === 'M') return { d: `${y}.${m}`, t: 'NET · 月份' };
   if (/^[QH]\d/.test(p)) return { d: `${y} ${p}`, t: 'NET · 尚未敲定' };
@@ -416,7 +418,9 @@ function prose(l, paragraphs) {
 function windowText(l) {
   const a = new Date(l.windowStart), b = new Date(l.windowEnd);
   if (!exact(l) || isNaN(a) || isNaN(b)) return '';
-  return b - a < 60e3 ? `${hm(a)} ${TZ}<small>瞬時窗口</small>` : `${hm(a)} – ${hm(b)} ${TZ}`;
+  const startZone = timezone(a), endZone = timezone(b);
+  if (b - a < 60e3) return `${hm(a)} ${startZone}<small>瞬時窗口</small>`;
+  return startZone === endZone ? `${hm(a)} – ${hm(b)} ${endZone}` : `${hm(a)} ${startZone} – ${hm(b)} ${endZone}`;
 }
 function detail(l) {
   const craft = l.spacecraft.map(c => kv('SPACECRAFT', '太空船', `${esc(c.name)}${c.destination ? `<small>${esc(c.destination)}</small>` : ''}`)).join('');
@@ -742,7 +746,7 @@ function feed() {
   const at = new Date(S.live ? S.at : S.fetchedAt);
   $('#feed').classList.toggle('live', S.live);
   $('#feed-text').textContent = S.live ? `LIVE DATA · ${hm(at)}` : `SNAPSHOT · ${ymd(at)}`;
-  $('#foot-time').textContent = `資料更新時間：${ymd(at)} ${hm(at)} ${TZ}${S.live ? '（即時）' : '（快照）'}`;
+  $('#foot-time').textContent = `資料更新時間：${ymd(at)} ${hm(at)} ${timezone(at)}${S.live ? '（即時）' : '（快照）'}`;
 }
 async function refresh() {
   let cache = null;
@@ -761,7 +765,11 @@ async function refresh() {
       ]);
       cache = { at: Date.now(), agency: normalizeAgency(prev[0]), launches: [...up, ...prev].map(normalizeLaunch) };
       try { localStorage.setItem(CACHE, JSON.stringify(cache)); } catch {}
-    } catch { /* rate-limited or offline: keep whatever we already have */ }
+    } catch {
+      // An expired cache must not be applied or labelled LIVE after a failed refresh.
+      // The bundled snapshot is already rendered and retains its own update timestamp.
+      return;
+    }
   }
   if (!cache) return;
   partition(cache.launches);
