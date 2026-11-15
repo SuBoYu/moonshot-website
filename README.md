@@ -66,7 +66,7 @@ The page uses no photographs, SpaceX logos or web fonts. The globe is drawn from
 
 ## Light and dark appearance
 
-The header's moon/sun button switches all pages between light and dark styles. The initial default is light; an explicit preference is saved as `moonshot.theme` in local storage, restored before the first paint and synchronized across tabs. Navigation between the homepage, launch tracker and pixel comparison retains the same choice. The dark cinematic hero remains in both themes.
+The header's moon/sun button switches all pages between light and dark styles. The initial default is dark; an explicit preference is saved as `moonshot.theme` in local storage, restored before the first paint and synchronized across tabs. Navigation between the homepage, launch tracker and pixel comparison retains the same choice. The dark cinematic hero remains in both themes.
 
 Shared behavior and styles live in `src/shared/theme.js` and `src/shared/theme.css`, copied to `/theme.js` and `/theme.css` during builds. The toggle continues working when storage is blocked. Run `npm test` for launch formatting/cache checks and theme persistence, accessibility state, blocked-storage and cross-tab checks.
 
@@ -75,3 +75,10 @@ Shared behavior and styles live in `src/shared/theme.js` and `src/shared/theme.c
 The umbrella website brand is **Moonshot 射月計畫**. Do not append PODCAST to its wordmark or describe the entire brand as a podcast. YouTube videos, podcast conversations and on-location exploration are formats under the broader brand. Keep Podcast labels where they identify an actual listening format or platform, and preserve existing platform URLs.
 
 The homepage and launch tracker share `src/shared/header.html` and `src/shared/header.js`. Edit the shared template to change both top navigation bars; the build resolves homepage/launch links for each route. Launch-specific section links and the data status live inside the launch hero.
+
+
+## Brand identity
+
+The shared header, page-footer wordmark, favicon, touch icon and social preview use the Moonshot brand kit v1. `src/brand-assets/` contains outlined SVG lockups (no font download needed), pixel-crescent icons and an original 1200×630 share card. Light and dark logos switch with the saved theme; the first visit defaults to dark. Visible wordmarks use lowercase `moonshot`, while page titles and accessible names remain “Moonshot 射月計畫”.
+
+Build metadata uses `https://moonshot-website-4b9.pages.dev` as the production origin. Set `SITE_URL` to the new HTTPS origin when a custom domain is adopted. The same share-card design is used across pages with page-specific titles and descriptions. Production artwork is used directly; the AI application mockup is not shipped.

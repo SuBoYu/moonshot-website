@@ -14,7 +14,7 @@
       button.querySelector('[data-theme-icon]').textContent = dark ? '☼' : '☾';
     });
   }
-  let initial = 'light';
+  let initial = 'dark';
   try { const saved = localStorage.getItem(key); if (valid(saved)) initial = saved; } catch {}
   apply(initial);
   document.addEventListener('DOMContentLoaded', () => {
@@ -26,6 +26,6 @@
     }));
   });
   window.addEventListener('storage', event => {
-    if (event.key === key) apply(valid(event.newValue) ? event.newValue : 'light');
+    if (event.key === key) apply(valid(event.newValue) ? event.newValue : 'dark');
   });
 })();
