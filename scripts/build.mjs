@@ -53,7 +53,7 @@ for (const required of ['Tony', 'Jason', 'Nash', 'moonshotpdct@gmail.com',
 const output = new URL('../dist/', import.meta.url);
 await rm(output, { recursive: true, force: true });
 await mkdir(output, { recursive: true });
-await writeFile(new URL('index.html', output), html);
+await writeFile(new URL('index.html', output), brandMetadata(html, '/'));
 await cp(new URL('../src/pixel-assets/', import.meta.url), new URL('assets/', output), { recursive: true });
 console.log('Build passed: navigation targets, script syntax and brand links validated. Output: dist/');
 
@@ -66,7 +66,7 @@ for (const [, id] of pixel.matchAll(/href="#([^"\s]+)"/g)) {
 }
 for (const [, script] of pixel.matchAll(/<script>([\s\S]*?)<\/script>/g)) new vm.Script(script);
 await mkdir(new URL('pixel/', output), { recursive: true });
-await writeFile(new URL('pixel/index.html', output), pixel);
+await writeFile(new URL('pixel/index.html', output), brandMetadata(pixel, '/pixel/'));
 await cp(new URL('../src/pixel-assets/', import.meta.url), new URL('pixel/assets/', output), { recursive: true });
 console.log('Pixel variant built at /pixel/');
 
@@ -98,7 +98,7 @@ for (const [, id] of launchPage.matchAll(/href="#([^"\s]+)"/g)) {
 }
 for (const [, script] of launchPage.matchAll(/<script>([\s\S]*?)<\/script>/g)) new vm.Script(script);
 await mkdir(new URL('launches/', output), { recursive: true });
-await writeFile(new URL('launches/index.html', output), launchPage);
+await writeFile(new URL('launches/index.html', output), brandMetadata(launchPage, '/launches/'));
 console.log('Launch tracker built at /launches/');
 
 // Theme preference is shared across all pages and applied before the first paint.
@@ -108,3 +108,16 @@ await cp(new URL('../src/shared/theme.css', import.meta.url), new URL('theme.css
 
 new vm.Script(await readFile(new URL('../src/shared/header.js', import.meta.url), 'utf8'));
 await cp(new URL('../src/shared/header.js', import.meta.url), new URL('header.js', output));
+
+// Stable production URLs keep social previews independent of preview-deployment hosts.
+function brandMetadata(page, path) {
+  const base = new URL(process.env.SITE_URL || 'https://moonshot-website-4b9.pages.dev');
+  if (base.protocol !== 'https:') throw new Error('SITE_URL must use HTTPS');
+  const title = page.match(/<title>([^<]+)<\/title>/)?.[1];
+  const description = page.match(/<meta name="description" content="([^"]+)"/)?.[1];
+  if (!title || !description) throw new Error('Missing page title or description');
+  const image = escape(new URL('/brand/social-card.jpg', base).href);
+  const url = escape(new URL(path, base).href);
+  return page.replace('</head>', `<link rel="icon" type="image/svg+xml" href="/brand/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/brand/favicon-32.png"><link rel="apple-touch-icon" href="/brand/apple-touch-icon.png"><meta property="og:site_name" content="Moonshot 射月計畫"><meta property="og:type" content="website"><meta property="og:locale" content="zh_TW"><meta property="og:title" content="${title}"><meta property="og:description" content="${description}"><meta property="og:url" content="${url}"><meta property="og:image" content="${image}"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Moonshot 射月計畫 — 保持好奇，探索未知。"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${title}"><meta name="twitter:description" content="${description}"><meta name="twitter:image" content="${image}"></head>`);
+}
+await cp(new URL('../src/brand-assets/', import.meta.url), new URL('brand/', output), { recursive: true });
