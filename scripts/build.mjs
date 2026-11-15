@@ -1,6 +1,12 @@
 import { readFile, mkdir, writeFile, cp, rm } from 'node:fs/promises';
 import vm from 'node:vm';
-let html = await readFile(new URL('../src/index.html', import.meta.url), 'utf8');
+const headerTemplate = await readFile(new URL('../src/shared/header.html', import.meta.url), 'utf8');
+function siteHeader(page, home, launches, current = false) {
+  const header = headerTemplate.replace('href="__HOME__"', 'href="' + (home || '#home') + '"').replaceAll('__HOME__', home).replaceAll('__LAUNCHES__', launches).replace('__CURRENT__', current ? 'aria-current="page"' : '');
+  if (!page.includes('<!-- SITE_HEADER -->')) throw new Error('Missing shared header slot');
+  return page.replace('<!-- SITE_HEADER -->', header).replace('</head>', '<script src="/header.js" defer></script></head>');
+}
+let html = siteHeader(await readFile(new URL('../src/index.html', import.meta.url), 'utf8'), '', 'launches/');
 const { episodes, source } = JSON.parse(await readFile(new URL('../src/data/episodes.json', import.meta.url), 'utf8'));
 const escape = value => String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 if (!Array.isArray(episodes) || episodes.length !== 3) throw new Error('Expected three episode records');
@@ -63,3 +69,42 @@ await mkdir(new URL('pixel/', output), { recursive: true });
 await writeFile(new URL('pixel/index.html', output), pixel);
 await cp(new URL('../src/pixel-assets/', import.meta.url), new URL('pixel/assets/', output), { recursive: true });
 console.log('Pixel variant built at /pixel/');
+
+// SpaceX launch tracker at /launches/. Launch data is a reviewed snapshot (npm run launches:update);
+// the page refreshes itself from Launch Library 2 in the browser and falls back to the snapshot.
+const launches = JSON.parse(await readFile(new URL('../src/data/launches.json', import.meta.url), 'utf8'));
+for (const key of ['upcoming', 'recent', 'starship']) {
+  if (!Array.isArray(launches[key]) || !launches[key].length) throw new Error(`Launch snapshot has no ${key} launches`);
+  for (const launch of launches[key]) {
+    if (!launch.id || !launch.name || !launch.vehicle || Number.isNaN(Date.parse(launch.net))) throw new Error(`Invalid launch record in ${key}: ${launch.name ?? launch.id}`);
+    if (launch.webcast && new URL(launch.webcast).protocol !== 'https:') throw new Error(`Webcast link must be https: ${launch.name}`);
+  }
+}
+if (Number.isNaN(Date.parse(launches.fetchedAt))) throw new Error('Launch snapshot is missing fetchedAt');
+if (launches.recent.some((launch, i) => i && launch.net > launches.recent[i - 1].net)) throw new Error('Recent launches must be newest first');
+const landMask = JSON.parse(await readFile(new URL('../src/data/land-mask.json', import.meta.url), 'utf8'));
+if (Buffer.from(landMask.bits, 'base64').length !== Math.ceil((landMask.cols * landMask.rows) / 8)) throw new Error('Land mask size does not match its grid');
+const normalizer = (await readFile(new URL('./launch-normalize.mjs', import.meta.url), 'utf8')).replace(/^export /gm, '');
+const inlineJson = value => JSON.stringify(value).replace(/</g, '\u003c');
+let launchPage = siteHeader(await readFile(new URL('../src/launches.html', import.meta.url), 'utf8'), '../', '../launches/', true);
+for (const [slot, value] of [['__LAUNCH_DATA__', inlineJson(launches)], ['__LAND_MASK__', inlineJson(landMask)], ['/*__NORMALIZE__*/', normalizer]]) {
+  if (launchPage.split(slot).length !== 2) throw new Error(`Launch page must contain exactly one ${slot} slot`);
+  launchPage = launchPage.replace(slot, () => value);
+}
+const launchIds = [...launchPage.matchAll(/\sid="([^"\s]+)"/g)].map(match => match[1]);
+if (new Set(launchIds).size !== launchIds.length) throw new Error('Duplicate launch page IDs');
+for (const [, id] of launchPage.matchAll(/href="#([^"\s]+)"/g)) {
+  if (!launchIds.includes(id)) throw new Error(`Missing launch page target: ${id}`);
+}
+for (const [, script] of launchPage.matchAll(/<script>([\s\S]*?)<\/script>/g)) new vm.Script(script);
+await mkdir(new URL('launches/', output), { recursive: true });
+await writeFile(new URL('launches/index.html', output), launchPage);
+console.log('Launch tracker built at /launches/');
+
+// Theme preference is shared across all pages and applied before the first paint.
+new vm.Script(await readFile(new URL('../src/shared/theme.js', import.meta.url), 'utf8'));
+await cp(new URL('../src/shared/theme.js', import.meta.url), new URL('theme.js', output));
+await cp(new URL('../src/shared/theme.css', import.meta.url), new URL('theme.css', output));
+
+new vm.Script(await readFile(new URL('../src/shared/header.js', import.meta.url), 'utf8'));
+await cp(new URL('../src/shared/header.js', import.meta.url), new URL('header.js', output));

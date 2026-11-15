@@ -55,3 +55,23 @@ The hero asset lives in `src/pixel-assets/pixel-moon.png` and is bundled locally
 ## Default homepage design
 
 The selected pixel-space opening and spacious light editorial content now form the default homepage at `/`. Edit `src/index.html`; artwork is bundled at `/assets/pixel-moon.png`. The `/hybrid/` comparison page has been removed. `/pixel/` remains the earlier all-dark design comparison. No hidden game is included.
+
+## SpaceX launch tracker
+
+`/launches/` lists the next SpaceX launch (countdown, pad on a dot-matrix globe, launch sequence), upcoming and recent launches, and every Starship flight test. Edit `src/launches.html`; the homepage nav links to it. The design follows the homepage: warm-white navigation, a dark mission-control opening with mint countdown accents, then spacious warm-white lists and a pale sage Starship history section.
+
+Data comes from [Launch Library 2](https://thespacedevs.com/llapi) (The Space Devs). `src/data/launches.json` is a checked-in snapshot, so builds need no network. Refresh it with `npm run launches:update` (three API requests; the free tier allows 15 per hour), review the diff, then build. In the browser the page also asks Launch Library for the latest ten upcoming and ten previous launches, at most once every 30 minutes per visitor, and keeps showing the snapshot if that request fails. This is the one place the site calls a third-party API from visitors' browsers. `scripts/launch-normalize.mjs` is shared by the snapshot script and the page (the build inlines it).
+
+The page uses no photographs, SpaceX logos or web fonts. The globe is drawn from `src/data/land-mask.json`, a coarse land grid generated from Natural Earth (public domain) by `scripts/make-land-mask.mjs`; the Starship outline is an original schematic. Mission descriptions are shown in English as provided by the data source. The page states that it is unofficial and not affiliated with SpaceX.
+
+## Light and dark appearance
+
+The header's moon/sun button switches all pages between light and dark styles. The initial default is light; an explicit preference is saved as `moonshot.theme` in local storage, restored before the first paint and synchronized across tabs. Navigation between the homepage, launch tracker and pixel comparison retains the same choice. The dark cinematic hero remains in both themes.
+
+Shared behavior and styles live in `src/shared/theme.js` and `src/shared/theme.css`, copied to `/theme.js` and `/theme.css` during builds. The toggle continues working when storage is blocked. Run `npm test` for launch formatting/cache checks and theme persistence, accessibility state, blocked-storage and cross-tab checks.
+
+## Brand naming
+
+The umbrella website brand is **Moonshot 射月計畫**. Do not append PODCAST to its wordmark or describe the entire brand as a podcast. YouTube videos, podcast conversations and on-location exploration are formats under the broader brand. Keep Podcast labels where they identify an actual listening format or platform, and preserve existing platform URLs.
+
+The homepage and launch tracker share `src/shared/header.html` and `src/shared/header.js`. Edit the shared template to change both top navigation bars; the build resolves homepage/launch links for each route. Launch-specific section links and the data status live inside the launch hero.
