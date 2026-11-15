@@ -12,6 +12,6 @@
     "preview": "python3 -m http.server 4173 --directory dist",
     "episodes:update": "python3 scripts/update-episodes.py",
     "launches:update": "node scripts/update-launches.mjs",
-    "test": "node --test scripts/test-launches.mjs"
+    "test": "node --test scripts/test-*.mjs"
   }
 }

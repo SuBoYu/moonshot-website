@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="zh-Hant">
+<html lang="zh-Hant" data-page="launches">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#f7f5ef">
 <meta name="description" content="Moonshot 射月計畫整理的 SpaceX 發射任務：下一次發射倒數、即將發射清單、Starship 歷次飛行測試與近期發射紀錄。">
 <title>發射任務 — Moonshot 射月計畫</title>
-<style>
+<script src="/theme.js"></script><style>
 :root{
   --fg:240,240,250;
   --t1:rgba(var(--fg),.94);--t2:rgba(var(--fg),.62);--t3:rgba(var(--fg),.4);
@@ -289,12 +289,12 @@ html{scroll-padding-top:100px}.wrap{max-width:1440px}
 @media(max-width:1100px){.top nav{gap:18px}.top .feed{display:none}.stats{gap:0 25px}.stat small{display:block}.stat small span{display:block}.fl{grid-template-columns:minmax(0,.7fr) minmax(0,1fr)}}
 @media(max-width:820px){html{scroll-padding-top:85px}.top{height:74px}.brand{font-size:27px}.brand span{font-size:8px;letter-spacing:2.5px}.top nav .home{font-size:11px;padding:9px 14px}.hero{min-height:max(calc(100svh - 74px),860px)}.hero-main{padding-top:40px;padding-bottom:250px}.hero::before{background:linear-gradient(180deg,#080e15 0,#080e1599 50%,transparent 66%),linear-gradient(0deg,#080e15 0,#080e15bf 14%,transparent 30%)}.hero h1{letter-spacing:-1px}.hero .hero-sub{font-size:12px;line-height:1.8}.hero .cd{margin-top:25px;margin-bottom:26px}.hero .kvs dd{font-size:12px}.page-bridge .wrap{font-size:8px;padding-top:18px;padding-bottom:18px}.page-bridge .wrap span:last-child{display:none}.stats{padding-top:55px;padding-bottom:55px;gap:36px 24px}.stat small{display:flex;flex-wrap:wrap;font-size:9px}.stat b{font-size:58px;letter-spacing:-2px;margin-top:16px}.sec{padding-top:60px;padding-bottom:60px}.sec h2{font-size:32px}.sec-head{margin-bottom:28px}.sec-head p{font-size:12px}.row-head{padding-top:20px;padding-bottom:20px;gap:7px 14px}.row-head small{font-size:10px}.c-name b{font-size:15px;line-height:1.6}.detail{gap:10px}.row-body{padding-left:10px;padding-right:10px}.fl{grid-template-columns:1fr;gap:32px}.fl-num b{font-size:110px;letter-spacing:-5px}.fl-info h3{font-size:23px}.fl-stack{max-width:400px}.foot{padding-top:30px;padding-bottom:35px}.page-bridge .wrap{line-height:1.7}}
 </style>
-</head>
+<link rel="stylesheet" href="/theme.css"></head>
 <body>
 <a class="skip" href="#main">跳至主要內容</a>
 <header class="top"><div class="wrap">
   <a class="brand" href="../" aria-label="回到 Moonshot 射月計畫首頁">moonshot<span>射月計畫 PODCAST</span></a>
-  <nav aria-label="頁面導覽"><a href="#upcoming">發射清單</a><a href="#starship">歷次試飛</a><a href="#recent">近期發射</a><a class="home" href="../">← 首頁</a></nav>
+  <nav aria-label="頁面導覽"><a href="#upcoming">發射清單</a><a href="#starship">歷次試飛</a><a href="#recent">近期發射</a><a class="home" href="../">← 首頁</a></nav><button class="theme-toggle" type="button" data-theme-toggle aria-label="切換至深色風格" aria-pressed="false" title="切換至深色風格"><span data-theme-icon aria-hidden="true">☾</span></button>
   <div class="feed" id="feed" role="status"><i></i><span id="feed-text">SNAPSHOT</span></div>
 </div></header>
 

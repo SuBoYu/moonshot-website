@@ -63,3 +63,9 @@ The selected pixel-space opening and spacious light editorial content now form t
 Data comes from [Launch Library 2](https://thespacedevs.com/llapi) (The Space Devs). `src/data/launches.json` is a checked-in snapshot, so builds need no network. Refresh it with `npm run launches:update` (three API requests; the free tier allows 15 per hour), review the diff, then build. In the browser the page also asks Launch Library for the latest ten upcoming and ten previous launches, at most once every 30 minutes per visitor, and keeps showing the snapshot if that request fails. This is the one place the site calls a third-party API from visitors' browsers. `scripts/launch-normalize.mjs` is shared by the snapshot script and the page (the build inlines it).
 
 The page uses no photographs, SpaceX logos or web fonts. The globe is drawn from `src/data/land-mask.json`, a coarse land grid generated from Natural Earth (public domain) by `scripts/make-land-mask.mjs`; the Starship outline is an original schematic. Mission descriptions are shown in English as provided by the data source. The page states that it is unofficial and not affiliated with SpaceX.
+
+## Light and dark appearance
+
+The header's moon/sun button switches all pages between light and dark styles. The initial default is light; an explicit preference is saved as `moonshot.theme` in local storage, restored before the first paint and synchronized across tabs. Navigation between the homepage, launch tracker and pixel comparison retains the same choice. The dark cinematic hero remains in both themes.
+
+Shared behavior and styles live in `src/shared/theme.js` and `src/shared/theme.css`, copied to `/theme.js` and `/theme.css` during builds. The toggle continues working when storage is blocked. Run `npm test` for launch formatting/cache checks and theme persistence, accessibility state, blocked-storage and cross-tab checks.

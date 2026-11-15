@@ -94,3 +94,8 @@ for (const [, script] of launchPage.matchAll(/<script>([\s\S]*?)<\/script>/g)) n
 await mkdir(new URL('launches/', output), { recursive: true });
 await writeFile(new URL('launches/index.html', output), launchPage);
 console.log('Launch tracker built at /launches/');
+
+// Theme preference is shared across all pages and applied before the first paint.
+new vm.Script(await readFile(new URL('../src/shared/theme.js', import.meta.url), 'utf8'));
+await cp(new URL('../src/shared/theme.js', import.meta.url), new URL('theme.js', output));
+await cp(new URL('../src/shared/theme.css', import.meta.url), new URL('theme.css', output));
