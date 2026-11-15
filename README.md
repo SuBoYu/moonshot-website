@@ -69,3 +69,7 @@ The page uses no photographs, SpaceX logos or web fonts. The globe is drawn from
 The header's moon/sun button switches all pages between light and dark styles. The initial default is light; an explicit preference is saved as `moonshot.theme` in local storage, restored before the first paint and synchronized across tabs. Navigation between the homepage, launch tracker and pixel comparison retains the same choice. The dark cinematic hero remains in both themes.
 
 Shared behavior and styles live in `src/shared/theme.js` and `src/shared/theme.css`, copied to `/theme.js` and `/theme.css` during builds. The toggle continues working when storage is blocked. Run `npm test` for launch formatting/cache checks and theme persistence, accessibility state, blocked-storage and cross-tab checks.
+
+## Brand naming
+
+The umbrella website brand is **Moonshot 射月計畫**. Do not append PODCAST to its wordmark or describe the entire brand as a podcast. YouTube videos, podcast conversations and on-location exploration are formats under the broader brand. Keep Podcast labels where they identify an actual listening format or platform, and preserve existing platform URLs.
