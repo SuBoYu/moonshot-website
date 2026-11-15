@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#000000">
+<meta name="theme-color" content="#f7f5ef">
 <meta name="description" content="Moonshot 射月計畫整理的 SpaceX 發射任務：下一次發射倒數、即將發射清單、Starship 歷次飛行測試與近期發射紀錄。">
 <title>發射任務 — Moonshot 射月計畫</title>
 <style>
@@ -270,13 +270,31 @@ h1,h2,h3,p{margin:0}
   .rv,.list.rv .row,.track-scroll.rv .node{opacity:1;transform:none}
   .track-scroll.rv .track::before{transform:none}
 }
+
+/* Moonshot brand: dark mission opening, warm editorial information. */
+:root{--fg:37,42,38;--t1:#252a26;--t2:#5e685f;--t3:#747d72;--line:#d9dcd2;--line2:#c6cdbf;--go:#327956;--fail:#b54436;--din:Arial,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;--paper:#f7f5ef;--mint:#b7efd3;--orange:#d9663f}
+html,body{background:var(--paper)}
+html{scroll-padding-top:100px}.wrap{max-width:1440px}
+.top{position:sticky;height:86px;background:var(--paper);border-bottom:1px solid var(--line)}
+.brand{font-size:31px;font-weight:900;letter-spacing:-1.8px}.brand span{font-size:9px;font-weight:700;letter-spacing:3px;color:var(--t2);margin-top:7px}
+.top nav{font-size:12px;letter-spacing:0;gap:27px}.top nav a{color:var(--t1)}.top nav a:hover{color:var(--orange)}.top nav .home{border:1px solid var(--t1);border-radius:30px;padding:10px 17px}
+.feed{font-size:9px;color:var(--t2);letter-spacing:.5px}.feed i{background:#9aa295}.feed.live i{background:var(--go)}
+.hero{--fg:237,241,231;--t1:#edf1e7;--t2:#b1c3bc;--t3:#7e978e;--line:#284039;--line2:#48645a;--go:#a8f6d3;--fail:#ff9a83;color:var(--t1);background:#080e15;min-height:max(calc(100svh - 86px),760px)}
+.hero::before{background:linear-gradient(90deg,#080e15 0,#080e15c4 30%,transparent 62%),linear-gradient(0deg,#080e15 0,#080e1599 14%,transparent 35%)}
+.hero-main{padding-top:65px}.hero .eyebrow{letter-spacing:.13em}.hero .eyebrow>span:first-child{color:#b7efd3}.hero h1{letter-spacing:-2px;font-weight:800}.hero .cd{background-color:#080e1580}.hero .cd-seg b,.hero .cd-sign{color:#b7efd3}.hero .hero-sub{letter-spacing:.06em}.hero .kvs dt{color:#9eb5aa}.hero .kvs dd small{color:#a8bdb3}.hero .btn{font-size:12px;letter-spacing:0}.hero .btn.solid{background:#b7efd3;border-color:#b7efd3;color:#172b22}.hero .btn.solid:hover{background:#d7ffe9}.hero .btn:not(.solid){border-color:#6d8b7e;color:#edf1e7}.hero .seq-head{color:#9eb5aa;letter-spacing:.12em}.hero .seq-track li.k{background:#080e15}.hero .seq-track li.past{background:#b7efd3;border-color:#b7efd3}
+.page-bridge{border-bottom:1px solid var(--line)}.page-bridge .wrap{display:flex;justify-content:space-between;gap:20px;padding-top:22px;padding-bottom:22px;font:9px var(--mono);letter-spacing:1.2px;color:var(--t2)}.page-bridge i{font-style:normal;color:var(--orange)}
+.stats{padding-top:80px;padding-bottom:80px;gap:0 45px}.stat{border-top-color:var(--line2);padding-top:20px}.stat small{font-size:10px;letter-spacing:.6px;line-height:1.7}.stat b{font-size:clamp(48px,6.5vw,90px);font-weight:500;letter-spacing:-3px;margin-top:23px}
+.sec{padding-top:95px;padding-bottom:95px}.sec-head{margin-bottom:38px;gap:25px 60px}.eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;color:var(--t2)}.sec .eyebrow b{color:var(--orange)}.sec h2{font-size:clamp(32px,3.8vw,48px);text-transform:none;font-weight:600;letter-spacing:-1.5px;line-height:1.2;margin-top:18px}.sec-head p{font-size:13px;line-height:1.95}.chips{gap:10px;margin-bottom:26px}.chips button{font-size:10px;letter-spacing:.5px;height:35px;padding:0 15px}.chips button[aria-pressed=true]{background:#e2eae0;border-color:#829d84;color:#294832}.chips button[aria-pressed=true] span{color:#58745f}.row-head{padding-top:24px;padding-bottom:24px;gap:0 22px}.row-head:hover,.row-head[aria-expanded=true]{background:#e9eee5}.c-name b{font-size:15px;font-weight:500;letter-spacing:0}.row-head>span{font-size:12px;letter-spacing:.2px}.row-head small{font-size:10px}.c-date b{font-size:12px}.c-stat{font-size:10px!important}.c-stat.st-ok{color:var(--go)!important}.st-ok i{background:var(--go);border-color:var(--go)}.chip.st-ok{color:var(--go)}.st-part i{background:linear-gradient(90deg,#a27d35 50%,transparent 50%);border-color:#a27d35}.st-part{color:#8a6b2c}.c-stat.st-part{color:#8a6b2c!important}.row-body{padding:10px 18px 36px}.detail{gap:14px 60px}.detail-text{font-size:13px;line-height:1.95}.detail-text .upd{font-size:11px}.kv dt{font-size:9px;letter-spacing:1px}.kv dd{font-size:13px}.kv dd small{font-size:11px}.ribbon{background:#eef0e8;padding-left:16px}.ribbon li{font-size:10px;letter-spacing:.4px}.ribbon li small{font-size:10px}.ribbon li.zero small{color:var(--orange)}.link{font-size:11px;letter-spacing:0;color:#45684e}.btn.more{border-color:#718b74;color:#34523c;font-size:11px;letter-spacing:0}.btn.more:hover{background:#e2eae0}
+#starship{background:#edf0e8}.node i{background:#edf0e8;width:19px;height:19px}.node.st-ok i{background:#5d866b;border-color:#5d866b}.node.st-part i{background:linear-gradient(90deg,#a27d35 50%,#edf0e8 50%);border-color:#a27d35}.node.st-fail i{border-color:var(--fail);background:linear-gradient(45deg,#edf0e8 46%,var(--fail) 46% 54%,#edf0e8 54%)}.node[aria-pressed=true] i{box-shadow:0 0 0 5px #edf0e8,0 0 0 6px #607d64}.track::before{top:19px}.node b{font-size:12px}.legend{gap:12px 25px;margin-top:28px}.legend .chip{font-size:10px}.fl{gap:35px 48px;margin-top:45px;padding-top:40px}.fl-num b{font-weight:500;color:#47624b;font-size:clamp(100px,13vw,180px);letter-spacing:-8px;margin-top:18px}.fl-info h3{font-size:clamp(22px,2.2vw,30px);line-height:1.4;text-transform:none;letter-spacing:-.5px}.fl-info .hero-sub{font-size:11px;letter-spacing:.3px}.call h4{font-size:13px;letter-spacing:.3px;font-weight:500}.call p{color:#697565;font-size:11px}.call b{font-size:10px}.fl-stack svg g{stroke:#496650}.fl-stack svg .dim{stroke:#94a48e}.fl-stack svg .wait{stroke:#84947f}.fl-stack svg .lost{stroke:var(--fail)}.foot{padding-top:40px;padding-bottom:45px;font-size:11px;color:#697363}.foot .brand{font-size:24px}
+@media(max-width:1100px){.top nav{gap:18px}.top .feed{display:none}.stats{gap:0 25px}.stat small{display:block}.stat small span{display:block}.fl{grid-template-columns:minmax(0,.7fr) minmax(0,1fr)}}
+@media(max-width:820px){html{scroll-padding-top:85px}.top{height:74px}.brand{font-size:27px}.brand span{font-size:8px;letter-spacing:2.5px}.top nav .home{font-size:11px;padding:9px 14px}.hero{min-height:max(calc(100svh - 74px),860px)}.hero-main{padding-top:40px;padding-bottom:250px}.hero::before{background:linear-gradient(180deg,#080e15 0,#080e1599 50%,transparent 66%),linear-gradient(0deg,#080e15 0,#080e15bf 14%,transparent 30%)}.hero h1{letter-spacing:-1px}.hero .hero-sub{font-size:12px;line-height:1.8}.hero .cd{margin-top:25px;margin-bottom:26px}.hero .kvs dd{font-size:12px}.page-bridge .wrap{font-size:8px;padding-top:18px;padding-bottom:18px}.page-bridge .wrap span:last-child{display:none}.stats{padding-top:55px;padding-bottom:55px;gap:36px 24px}.stat small{display:flex;flex-wrap:wrap;font-size:9px}.stat b{font-size:58px;letter-spacing:-2px;margin-top:16px}.sec{padding-top:60px;padding-bottom:60px}.sec h2{font-size:32px}.sec-head{margin-bottom:28px}.sec-head p{font-size:12px}.row-head{padding-top:20px;padding-bottom:20px;gap:7px 14px}.row-head small{font-size:10px}.c-name b{font-size:15px;line-height:1.6}.detail{gap:10px}.row-body{padding-left:10px;padding-right:10px}.fl{grid-template-columns:1fr;gap:32px}.fl-num b{font-size:110px;letter-spacing:-5px}.fl-info h3{font-size:23px}.fl-stack{max-width:400px}.foot{padding-top:30px;padding-bottom:35px}.page-bridge .wrap{line-height:1.7}}
 </style>
 </head>
 <body>
 <a class="skip" href="#main">跳至主要內容</a>
 <header class="top"><div class="wrap">
-  <a class="brand" href="../" aria-label="回到 Moonshot 射月計畫首頁">moonshot<span>射月計畫</span></a>
-  <nav aria-label="頁面導覽"><a href="#upcoming">Upcoming</a><a href="#starship">Starship</a><a href="#recent">Recent</a><a class="home" href="../">← 首頁</a></nav>
+  <a class="brand" href="../" aria-label="回到 Moonshot 射月計畫首頁">moonshot<span>射月計畫 PODCAST</span></a>
+  <nav aria-label="頁面導覽"><a href="#upcoming">發射清單</a><a href="#starship">歷次試飛</a><a href="#recent">近期發射</a><a class="home" href="../">← 首頁</a></nav>
   <div class="feed" id="feed" role="status"><i></i><span id="feed-text">SNAPSHOT</span></div>
 </div></header>
 
@@ -298,6 +316,8 @@ h1,h2,h3,p{margin:0}
     <ol class="seq-track" id="seq-track"></ol>
   </div>
 </section>
+
+<div class="page-bridge"><div class="wrap"><span>MOONSHOT / 任務控制室</span><span>保持好奇 <i>✳</i> 探索未知</span><span>EXPLORATION IN PROGRESS</span></div></div>
 
 <section class="wrap stats" id="stats" aria-label="SpaceX 發射統計"></section>
 

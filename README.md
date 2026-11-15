@@ -58,7 +58,7 @@ The selected pixel-space opening and spacious light editorial content now form t
 
 ## SpaceX launch tracker
 
-`/launches/` lists the next SpaceX launch (countdown, pad on a dot-matrix globe, launch sequence), upcoming and recent launches, and every Starship flight test. Edit `src/launches.html`; the homepage nav links to it.
+`/launches/` lists the next SpaceX launch (countdown, pad on a dot-matrix globe, launch sequence), upcoming and recent launches, and every Starship flight test. Edit `src/launches.html`; the homepage nav links to it. The design follows the homepage: warm-white navigation, a dark mission-control opening with mint countdown accents, then spacious warm-white lists and a pale sage Starship history section.
 
 Data comes from [Launch Library 2](https://thespacedevs.com/llapi) (The Space Devs). `src/data/launches.json` is a checked-in snapshot, so builds need no network. Refresh it with `npm run launches:update` (three API requests; the free tier allows 15 per hour), review the diff, then build. In the browser the page also asks Launch Library for the latest ten upcoming and ten previous launches, at most once every 30 minutes per visitor, and keeps showing the snapshot if that request fails. This is the one place the site calls a third-party API from visitors' browsers. `scripts/launch-normalize.mjs` is shared by the snapshot script and the page (the build inlines it).
 
