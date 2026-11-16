@@ -116,7 +116,7 @@ function brandMetadata(page, path) {
   const title = page.match(/<title>([^<]+)<\/title>/)?.[1];
   const description = page.match(/<meta name="description" content="([^"]+)"/)?.[1];
   if (!title || !description) throw new Error('Missing page title or description');
-  const image = escape(new URL('/brand/social-card.jpg', base).href);
+  const image = escape(new URL('/brand/social-card-warm.jpg', base).href);
   const url = escape(new URL(path, base).href);
   return page.replace('</head>', `<link rel="icon" type="image/svg+xml" href="/brand/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/brand/favicon-32.png"><link rel="apple-touch-icon" href="/brand/apple-touch-icon.png"><meta property="og:site_name" content="Moonshot 射月計畫"><meta property="og:type" content="website"><meta property="og:locale" content="zh_TW"><meta property="og:title" content="${title}"><meta property="og:description" content="${description}"><meta property="og:url" content="${url}"><meta property="og:image" content="${image}"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Moonshot 射月計畫 — 保持好奇，探索未知。"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${title}"><meta name="twitter:description" content="${description}"><meta name="twitter:image" content="${image}"></head>`);
 }
